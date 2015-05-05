@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="style.css" />
+	<link rel="stylesheet"
+		href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</h:head>
+
+
+<h:body class="layout">
+	<div id="page">
+		<div id="container">
+
+			<div class="row">
+				<div class="col-md-3" id="col-lado"></div>
+				<div class="col-md-6" id="col-center">
+					<h:form>
+						<h1 class="title2">CALCULADORA CIENTÍFICA</h1>
+
+
+						<h:commandLink value="Padrão " action="index" />
+						<h:outputText value=" Científica" style="color:#666" />
+						<h:panelGrid id="panel" columns="9" border="1" cellpadding="10"
+							cellspacing="1">
+							<f:facet name="header">
+								<h:outputLabel for="paramtext" />
+								<h:inputText class="input-box" id="paramtext"
+									value="#{calculadora.paramtext}" />
+							</f:facet>
+							<h:commandButton title="Arco Seno, asin(x)" class="btns-opc"
+								id="asin" value="asin" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Arco Cosseno, acos(x)" class="btns-opc"
+								id="acos" value="acos" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="parcd" value="("
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="parce" value=")"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="maismenos" value="+/-"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="ce" value="CE"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="clear" value="C"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="bcksp" value="&larr;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2c" id="divis" value="&#247;"
+								actionListener="#{calculadora.keyAdd}" />
+
+							<h:commandButton title="Constante Pi≈3.14" class="btns-opc"
+								id="pi" value=" π " actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Raiz quadrada, sqrt(x)" class="btns-opc"
+								id="sqrt" value="√x" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Seno, sin(x)" class="btns-opc" id="sin"
+								value="sin" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Cosseno, cos(x)" class="btns-opc"
+								id="cos" value="cos" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Tangente, tan(x)" class="btns-opc"
+								id="tan" value="tan" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n7" value="7"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n8" value="8"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n9" value="9"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2c" id="multip" value="x"
+								actionListener="#{calculadora.keyAdd}" />
+
+							<h:commandButton title="Fatorial, x! ex:!(5)" class="btns-opc"
+								id="nfact" value="n!" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Raíz cúbica de x, Ex: x^(1/3)" class="btns-opc"
+								id="raizde3" value="&#8731;x"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Seno Hiperbólico, sinh(x)"
+								class="btns-opc" id="sinh" value="sinh"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Cosseno Hiperbólico, cosh(x)"
+								class="btns-opc" id="cosh" value="cosh"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Tangente Hiperbólica, tanh(x)"
+								class="btns-opc" id="tanh" value="tanh"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n4" value="4"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n5" value="5"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n6" value="6"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2c" id="menos" value="-"
+								actionListener="#{calculadora.keyAdd}" />
+
+							<h:commandButton title="Ex: 4*e, 15e5" class="btns-opc" id="exp"
+								value="e" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton title="Raiz y de x, Ex: x^(1/y)"
+								class="btns-opc" id="raizdey" value="y√x"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton
+								title="Logaritmo de um número x de base 10, log10(x)"
+								class="btns-opc" id="log10" value="log10"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton
+								title="Logaritmo de um número x de base 2, log2(x)"
+								class="btns-opc" id="log2" value="log2"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton
+								title="Logaritmo de um número x de base e, log(x)"
+								class="btns-opc" id="ln" value="ln"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n1" value="1"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n2" value="2"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n3" value="3"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2c" id="mais" value="+"
+								actionListener="#{calculadora.keyAdd}" />
+
+							<h:commandButton title="Funcao exponencial, e^x" class="btns-opc"
+								id="expx" value="e&#739;" actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="dezx" value="10&#739;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="xquad" value=" x&sup2;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="xcub" value=" x&sup3;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" id="xlevy" value="x&#696;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="n0" value="0"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmbc" id="ponto" value="."
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-equal2" id="igual" value="="
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-opc" />
+
+						</h:panelGrid>
+
+						<h:selectOneRadio styleClass="rdbtn" id="angul"
+							value="#{calculadora.angul}">
+							<f:selectItem itemValue="true" itemLabel="Radianos " />
+							<f:selectItem id="btnrad2" itemValue="false" itemLabel="Graus" />
+						</h:selectOneRadio>
+
+						<h4 class="title-est">Histórico de Operações</h4>
+
+						<div style="width: 770px; height: 100px; overflow: auto;">
+
+							<h:dataTable value="#{calculadora.historico}" var="operacao"
+								class="historico" rowClasses="order-table-odd-row">
+
+
+								<h:column style="text-align:center">
+									<f:facet name="header" style="margin:20px"> ID </f:facet>
+									<h:outputText value="#{operacao.id}" style="margin:20px" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header" style="margin:20px"> Operação </f:facet>
+									<h:commandLink class="liga"
+										action="#{calculadora.noDisplay(operacao.comando)}"
+										value="#{operacao.comando}" style="margin:20px" />
+								</h:column>
+
+								<h:column>
+									<f:facet class="coluna" name="header" style="margin:20px"> Resultado </f:facet>
+									<h:outputText value="#{operacao.resultado}" style="margin:20px" />
+								</h:column>
+
+								<h:column>
+									<h:commandLink value="x  "
+										actionListener="#{calculadora.doEliminar(operacao)}"
+										style="color:red" />
+								</h:column>
+
+							</h:dataTable>
+						</div>
+					</h:form>
+
+				</div>
+
+
+				<div class="col-md-3" id="col-lado" style="margin-top: 210px">
+					<h4 class="title-est">Estatística</h4>
+					<h:dataTable class="side-box">
+
+						<h:column>
+							<f:facet name="header"> Operação </f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header"> Qtd </f:facet>
+						</h:column>
+					</h:dataTable>
+
+					<h:form>
+						<div style="width: 190px; height: 210px; overflow: auto;">
+							<h:dataTable class="side-box" value="#{stats.estatisticas}"
+								var="opst" rowClasses="order-table-odd-row">
+
+								<h:column>
+
+									<h:outputText value="#{opst.comando}" />
+								</h:column>
+
+								<h:column>
+
+									<h:outputText value="#{opst.id}" />
+								</h:column>
+
+							</h:dataTable>
+						</div>
+					</h:form>
+					<div id="footer" style="margin-top: 100px">
+						<p>© Copyright Abril 2015, Coimbra</p>
+						<p>Carlos Santos | Filipa Pedrosa</p>
+						<p>Trabalho 2 PAJ</p>
+					</div>
+
+				</div>
+
+			</div>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+</h:body>
+</html>

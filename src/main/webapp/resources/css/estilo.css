@@ -1,0 +1,312 @@
+@CHARSET "ISO-8859-1";
+/* Basic reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	/* Better text styling */
+	font: bold 14px Arial, sans-serif;
+}
+
+/* Finally adding some IE9 fallbacks for gradients to finish things up */
+
+/* A nice BG gradient */
+html {
+	height: 100%;
+	background: white;
+	background: radial-gradient(circle, #fff 20%, #ccc);
+	background-size: cover;
+}
+
+/* tbody {
+	display:block;
+    height: 100px; Just some fixed height
+    background-color: #fff; text-align: center;
+    overflow-y: auto;
+} */
+/* Using box shadows to create 3D effects */
+#calculadora {
+	width: 700px;
+	height: auto;
+	margin: 50px auto;
+	padding: 20px 20px 9px;
+	background: #9dd2ea;
+	background: linear-gradient(#9dd2ea, #8bceec);
+	border-radius: 3px;
+	box-shadow: 0px 4px #009de4, 0px 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Top portion */
+span.clear {
+	float: left;
+}
+
+div.top {
+	float: left;
+}
+
+#bloco_btnsV {
+	float: left;
+	width: 100%;
+	height: auto;
+	/* background:url("../images/news_moldura.gif") no-repeat; */
+	margin-top: 15px;
+}
+
+#bloco_btnsH {
+	float: left;
+	width: 100%;
+	height: auto;
+	/* background:url("../images/news_moldura.gif") no-repeat; */
+	margin-top: 15px;
+}
+
+#bloco_btnsV div.btns_basico {
+	position: relative;
+	float: right;
+	width: 45%;
+	height: auto;
+	margin-left: 7px;
+	margin-top: 0;
+}
+
+#bloco_btnsV div.btns_basico div.btn {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 40px;
+	pading: 10px;
+	font-size: 20px;
+	margin-right: 5px;
+	/* margin-left: 7px;
+	margin-top: 0; */
+}
+
+#bloco_btnsV div.btns_cientif {
+	position: relative;
+	float: left;
+	width: 45%;
+	height: auto;
+	margin-left: 7px;
+	margin-top: 0;
+}
+
+#bloco_btns div.border {
+	position: relative;
+	float: left;
+	width: 87px;
+	height: 52px;
+	padding-left: 2px;
+	padding-top: 2px;
+	border: 1px solid #c1a14b;
+}
+
+#btn1 {
+	position: relative;
+	float: left;
+	width: 20%;
+	height: 40px;
+	pading: 10px;
+	font-size: 20px;
+	margin-right: 5px;
+	/* margin-left: 7px;
+	margin-top: 0; */
+}
+
+.btnn a, .btnn button {
+	display: block;
+	float: left;
+	margin: 0 7px 0 0;
+	background-color: #f5f5f5;
+	border: 1px solid #dedede;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	font-size: 12px;
+	line-height: 130%;
+	text-decoration: none;
+	font-weight: bold;
+	color: #565656;
+	cursor: pointer;
+	padding: 5px 10px 6px 7px; /* Links */
+}
+
+.btnn button {
+	width: auto;
+	overflow: visible;
+	padding: 4px 10px 3px 7px; /* IE6 */
+}
+
+.btnn button[type] {
+	padding: 5px 10px 5px 7px; /* Firefox */
+	line-height: 17px; /* Safari */
+}
+
+*:first-child+html button[type] {
+	padding: 4px 10px 3px 7px; /* IE7 */
+}
+
+.btnn button img, .btnn a img {
+	margin: 0 3px -3px 0 !important;
+	padding: 0;
+	border: none;
+	width: 16px;
+	height: 16px;
+}
+
+/* STANDARD */
+button:hover, .btnn a:hover {
+	background-color: #dff4ff;
+	border: 1px solid #c2e1ef;
+	color: #336699;
+}
+
+.btnn a:active {
+	background-color: #6299c5;
+	border: 1px solid #6299c5;
+	color: #fff;
+}
+
+/* POSITIVE */
+button.positive, .btnn a.positive {
+	color: #529214;
+}
+
+.btnn a.positive:hover, button.positive:hover {
+	background-color: #E6EFC2;
+	border: 1px solid #C6D880;
+	color: #529214;
+}
+
+.btnn a.positive:active {
+	background-color: #529214;
+	border: 1px solid #529214;
+	color: #fff;
+}
+
+/* NEGATIVE */
+.btnn a.negative, button.negative {
+	color: #d12f19;
+}
+
+.btnn a.negative:hover, button.negative:hover {
+	background: #fbe3e4;
+	border: 1px solid #fbc2c4;
+	color: #d12f19;
+}
+
+.btnn a.negative:active {
+	background-color: #d12f19;
+	border: 1px solid #d12f19;
+	color: #fff;
+}
+
+/* REGULAR */
+button.regular, .btnn a.regular {
+	color: #336699;
+}
+
+.btnn a.regular:hover, button.regular:hover {
+	background-color: #d12f19;
+	border: 1px solid #c2e1ef;
+	color: #336699;
+}
+
+.btnn a.regular:active {
+	background-color: #6299c5;
+	border: 1px solid #6299c5;
+	color: #fff;
+}
+
+.btnn input {
+	margin: 5px;
+	padding: 5px 5px 5px 20px;
+	/* 20px makes room for your background image */
+	border: 1px solid #aaa;
+}
+
+.btnn .aplicar {
+	display: block;
+	float: left;
+	width: 49px;
+	margin: 0 7px 2px 0;
+	background-color: #f5f5f5;
+	border: 1px solid #000000;
+	/* 	border-top: 1px solid #eee;
+	border-left: 1px solid #eee; */
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	font-size: 12px;
+	line-height: 130%;
+	text-decoration: none;
+	font-weight: bold;
+	color: #565656;
+	cursor: pointer;
+	padding: 5px 10px 6px 7px; /* Links */
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.btnn .aplicardupH {
+	display: block;
+	float: left;
+	width: 106px;
+	margin: 0 7px 0 0;
+	background-color: #f5f5f5;
+	border: 1px solid #000000;
+	/* border-top: 1px solid #eee;
+	border-left: 1px solid #eee; */
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	font-size: 12px;
+	line-height: 130%;
+	text-decoration: none;
+	font-weight: bold;
+	color: #565656;
+	cursor: pointer;
+	padding: 5px 10px 6px 7px; /* Links */
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+.btnn .aplicardupV {
+	display: block;
+	float: left;
+	width: 49px;
+	height: 28px;
+	margin: 0 7px 0 0;
+	background-color: #f5f5f5;
+	border: 1px solid #000000;
+	/* 	border-top: 1px solid #eee;
+	border-left: 1px solid #eee; */
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	font-size: 12px;
+	line-height: 130%;
+	text-decoration: none;
+	font-weight: bold;
+	color: #565656;
+	cursor: pointer;
+	padding: 5px 10px 6px 7px; /* Links */
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.btnn .aplicar:hover {
+	background-color: #1e75cc;
+	border: 1px solid #c2e1ef;
+	color: #ffffff;
+}
+
+.btnn .aplicardupH:hover {
+	background-color: #1e75cc;
+	border: 1px solid #c2e1ef;
+	color: #ffffff;
+}
+
+.btnn .aplicardupV:hover {
+	background-color: #1e75cc;
+	border: 1px solid #c2e1ef;
+	color: #ffffff;
+}
+
+.btnn .cruzar {
+	background: #eee url(path/to/cross.png) no-repeat 0 50%;
+}

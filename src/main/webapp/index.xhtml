@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Calculadora: <ui:insert name="title">Padrão</ui:insert></title>
+	<h:outputStylesheet library="css" name="style.css" />
+	<link rel="stylesheet"
+		href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</h:head>
+
+<h:body class="layout">
+
+
+	<div id="page">
+		<div id="container">
+
+			<div class="row">
+				<div class="col-md-3" id="col-lado"></div>
+				<div class="col-md-6" id="col-center">
+					<h:form>
+						<h1 class="title">CALCULADORA PADRÃO</h1>
+
+						<h:outputText value="Padrão " style="color:#666" />
+						<h:commandLink class="mudapg" value="Científica" action="calc2" />
+						
+						<h:commandLink class="mudapg" value="      Padrão - Java" action="calcjs" />
+						<h:panelGrid id="panel" columns="5" border="1" cellpadding="10"
+							cellspacing="1">
+							<f:facet name="header">
+								<h:outputLabel for="paramtext" />
+								<h:inputText class="input-box" id="paramtext"
+									value="#{calculadora.paramtext}" />
+							</f:facet>
+
+							<h:commandButton class="btns-op" />
+							<h:commandButton class="btns-op" id="ce" value="CE"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op" id="clear" value="C"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op" id="bcksp" value="&larr;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op" id="divis" value="&#247;"
+								actionListener="#{calculadora.keyAdd}" style="font-size:25px" />
+							<h:commandButton class="btns-op" id="maismenos" value="+/-"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n7" value="7"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n8" value="8"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n9" value="9"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2" id="multip" value="x"
+								actionListener="#{calculadora.keyAdd}" />
+
+							<h:commandButton class="btns-op" id="sqrt" value="&radic;"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n4" value="4"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n5" value="5"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n6" value="6"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2" id="menos" value="-"
+								actionListener="#{calculadora.keyAdd}" style="font-size:25px" />
+							<h:commandButton class="btns-op" id="percent" value="%"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n1" value="1"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n2" value="2"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n3" value="3"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2" id="mais" value="+"
+								actionListener="#{calculadora.keyAdd}" />
+
+							<h:commandButton class="btns-op" id="umdivx" value="1/x"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btnsnmb" id="n0" value="0"
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op2" id="ponto" value="."
+								actionListener="#{calculadora.keyAdd}" style="size:150%" />
+							<h:commandButton class="btns-equal" id="igual" value="="
+								actionListener="#{calculadora.keyAdd}" />
+							<h:commandButton class="btns-op" />
+						</h:panelGrid>
+
+						<h4 class="title-est">Histórico de Operações</h4>
+
+						<div style="width: 770px; height: 100px; overflow: auto;">
+
+							<h:dataTable value="#{calculadora.historico}" var="operacao"
+								class="historico" rowClasses="order-table-odd-row">
+
+
+								<h:column style="text-align:center">
+									<f:facet name="header" style="margin:20px"> ID </f:facet>
+									<h:outputText value="#{operacao.id}" style="margin:20px" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header" style="margin:20px"> Operação </f:facet>
+									<h:commandLink class="liga"
+										action="#{calculadora.noDisplay(operacao.comando)}"
+										value="#{operacao.comando}" style="margin:20px" />
+								</h:column>
+
+								<h:column>
+									<f:facet class="coluna" name="header" style="margin:20px"> Resultado </f:facet>
+									<h:outputText value="#{operacao.resultado}" style="margin:20px" />
+								</h:column>
+
+								<h:column>
+									<h:commandLink value="x  "
+										actionListener="#{calculadora.doEliminar(operacao)}"
+										style="color:red" />
+								</h:column>
+
+							</h:dataTable>
+						</div>
+					</h:form>
+				</div>
+
+
+				<div class="col-md-3" id="col-lado" style="margin-top: 210px">
+					<h4 class="title-est">Estatística</h4>
+					<h:dataTable class="side-box">
+
+						<h:column>
+							<f:facet name="header"> Operação </f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header"> Qtd </f:facet>
+						</h:column>
+					</h:dataTable>
+
+					<h:form>
+						<div style="width: 190px; height: 210px; overflow: auto;">
+							<h:dataTable class="side-box" value="#{stats.estatisticas}"
+								var="opst" rowClasses="order-table-odd-row">
+
+								<h:column>
+
+									<h:outputText value="#{opst.comando}" />
+								</h:column>
+
+								<h:column>
+
+									<h:outputText value="#{opst.id}" />
+								</h:column>
+
+							</h:dataTable>
+						</div>
+					</h:form>
+					<div id="footer" style="margin-top: 100px">
+						<p>© Copyright Abril 2015, Coimbra</p>
+						<p>Carlos Santos | Filipa Pedrosa</p>
+						<p>Trabalho 2 PAJ</p>
+					</div>
+				</div>
+
+			</div>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+</h:body>
+</html>
