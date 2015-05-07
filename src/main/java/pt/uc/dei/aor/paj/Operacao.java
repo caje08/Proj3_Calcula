@@ -9,6 +9,8 @@ public class Operacao {
 		private int id;
 		private String comando;
 		private String resultado;
+		private double avgTime = 0; 
+		
 		
 		
 		public Operacao(int id, String comando, String resultado) {

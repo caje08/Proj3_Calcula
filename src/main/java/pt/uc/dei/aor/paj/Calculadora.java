@@ -17,9 +17,9 @@ import net.objecthunter.exp4j.function.Function;
 import net.objecthunter.exp4j.operator.Operator;
 
 /**
- * @author Carlos Santos e Filipa Pedrosa
- * Classe de recebe e trata os dados em cada sessão xhtml da aplicação "Calculadora". Reserva também o histórico
- * das operações efectuadas em cada sessão.
+ * @author Carlos Santos e Catarina Lapo Classe de recebe e trata os dados em
+ *         cada sessão xhtml da aplicação "Calculadora". Reserva também o
+ *         histórico das operações efectuadas em cada sessão.
  */
 
 @Named
@@ -38,9 +38,12 @@ public class Calculadora implements Serializable {
 	private Boolean angul, limpar;
 	private int conta;
 	private int cecont;
+	private Boolean basica;
+	private String modopera; // modo de operacao ("basic" - Básico; "cientif" -
+	// Cientifica)
 	private int contador; // for�a que ap�s o igual ('='), o pr�ximo
-							// caracter encontre o display limpo e n�o
-							// concatene o valor
+	// caracter encontre o display limpo e n�o
+	// concatene o valor
 	@Inject
 	private Stats stats;
 
@@ -58,6 +61,25 @@ public class Calculadora implements Serializable {
 		this.contador = 0;
 		this.opang = "1";
 		this.cecont = 0;
+		this.modopera = "basic";// Por defeito o modo de operacao é o da
+		this.basica = true; // calculadora básica
+	}
+
+	public boolean getBasica() {
+		//System.out.println("Basica = "+basica);
+		return basica;
+	}
+
+	public void setBasica(boolean basica) {
+		this.basica = basica;
+	}
+
+	public String getModopera() {
+		return modopera;
+	}
+
+	public void setModopera(String modopera) {
+		this.modopera = modopera;
 	}
 
 	public String getOpang() {
@@ -84,6 +106,15 @@ public class Calculadora implements Serializable {
 		this.paramtext = paramtext;
 	}
 
+	public String modo() {
+		String m = "";
+		if (getModopera().equals("basic"))
+			m = "basic";
+		else
+			m = "cientif";
+		return m;
+	}
+
 	public Boolean getAngul() {
 		return angul;
 	}
@@ -93,9 +124,11 @@ public class Calculadora implements Serializable {
 	}
 
 	/**
-	 * Método que na classe Calculadora devolve o valor em radianos 
-	 * @param ang valor dos angulos em graus
-	 * @return Devolve um double com o valor do angulo em radianos  
+	 * Método que na classe Calculadora devolve o valor em radianos
+	 * 
+	 * @param ang
+	 *            valor dos angulos em graus
+	 * @return Devolve um double com o valor do angulo em radianos
 	 */
 	public Double toRadians(double ang) {
 		double rad = 0.0;
@@ -143,16 +176,21 @@ public class Calculadora implements Serializable {
 	public void noDisplay(String x) {
 		paramtext = x;
 	}
+
 	/**
-	 * Método que na classe Calculadora analiza o evento da tecla pressionada pelo utilizador
-	 * @param event evento gerado pelo Actionlistener no ficheiro xhtml (tecla/operação) pressionada
+	 * Método que na classe Calculadora analiza o evento da tecla pressionada
+	 * pelo utilizador
+	 * 
+	 * @param event
+	 *            evento gerado pelo Actionlistener no ficheiro xhtml
+	 *            (tecla/operação) pressionada
 	 * 
 	 */
 	public void keyAdd(ActionEvent event) {
 		String txt = "";
 		int nc = 0;// n� de caracteres do �ltimo numero introduzido e que v�o
-					// ser retirados de 'paramtext' para adicionar com a
-					// altera��o necess�ria
+		// ser retirados de 'paramtext' para adicionar com a
+		// altera��o necess�ria
 		boolean flag = false;// quando a 'true' faz a reset do display (fun��o
 		int indx = 0; // 'C')
 
@@ -252,7 +290,7 @@ public class Calculadora implements Serializable {
 				paramtext = "";
 			break;
 		case "ce":// vai limpar uma vez até ao último operador básico
-					// introduzido ("+", "-","*","/")
+			// introduzido ("+", "-","*","/")
 			if (!limpar) {
 				if (linhaindx.size() > 0) {
 					for (int i = linhaindx.size() - 1; i >= 0; i--) {
@@ -285,7 +323,9 @@ public class Calculadora implements Serializable {
 			break;
 		case "igual":
 			if (paramtext.length() > 0) {
+
 				txt = express();
+
 				operacao = new Operacao(conta, paramtext, txt);
 				historico.add(operacao);
 				nomes.add(operacao.getComando());
@@ -296,7 +336,7 @@ public class Calculadora implements Serializable {
 				conta++;
 				if (contador != 2)
 					contador = 1;// limpa o display para apresentar o valor da
-									// operacao
+				// operacao
 
 			}
 			break;
@@ -357,7 +397,7 @@ public class Calculadora implements Serializable {
 			linhacmd.add("sin");
 			indx = paramtext.length();
 			linhaindx.add(indx);
-			System.out.println("Flag =" + getAngul());
+		//	System.out.println("Flag =" + getAngul());
 			if (getAngul())
 				txt = "sin(";
 			else
@@ -424,11 +464,11 @@ public class Calculadora implements Serializable {
 			linhacmd.add("tanh");
 			indx = paramtext.length();
 			linhaindx.add(indx);
-			if(getAngul())
+			if (getAngul())
 				txt = "tanh(";
 			else
 				txt = "tanhd(";
-				break;
+			break;
 		case "tan":
 			linhacmd.add("tan");
 			indx = paramtext.length();
@@ -489,7 +529,7 @@ public class Calculadora implements Serializable {
 			limpar = false;
 		} else {
 			if (nc > 0) {// significa que o �ltimo n� de 'paramtext' precisa de
-							// ser substituido
+				// ser substituido
 				paramtext = paramtext.substring(0, paramtext.length() - nc);
 			}
 			// paramtext = paramtext + txt;
@@ -503,11 +543,15 @@ public class Calculadora implements Serializable {
 			}
 		}
 	}
+
 	/**
-	 * Método que na classe Calculadora que verifica qual o indice guardado na ultima posicao do Array e se 
-	 * o "backspace" vai apagar o comando introduzido. Neste caso ele remove o comando do Array. 
-	 * @param n valor do indice do item a verificar
-	 *   
+	 * Método que na classe Calculadora que verifica qual o indice guardado na
+	 * ultima posicao do Array e se o "backspace" vai apagar o comando
+	 * introduzido. Neste caso ele remove o comando do Array.
+	 * 
+	 * @param n
+	 *            valor do indice do item a verificar
+	 * 
 	 */
 	public void checkIndx(int n) {
 		int dim = linhaindx.size();
@@ -519,10 +563,15 @@ public class Calculadora implements Serializable {
 		}
 		// }
 	}
+
 	/**
-	 * Método que na classe Calculadora cria o operador 'factorial' para ser usado pela função 'Expressbuilder' 
-	 * @param args argumento queidentifica o valor inteiro do factorial a calcular
-	 * @return Devolve um double com o valor resultado do factorial  
+	 * Método que na classe Calculadora cria o operador 'factorial' para ser
+	 * usado pela função 'Expressbuilder'
+	 * 
+	 * @param args
+	 *            argumento queidentifica o valor inteiro do factorial a
+	 *            calcular
+	 * @return Devolve um double com o valor resultado do factorial
 	 */
 	Operator factorial = new Operator("!", 1, true,
 			Operator.PRECEDENCE_POWER + 1) {
@@ -598,23 +647,29 @@ public class Calculadora implements Serializable {
 			return Math.acos(Math.toRadians(args[0]));
 		}
 	};
+
 	/**
-	 * Método que na classe Controladora que faz a operação pedida pelo utilizador e devolve uma String com o valor a apresentar no display  
-	 * @param  Não tem valores de entrada
-	 * @return Devolve uma String com o valor da expressao resultante do cálculo introduzido  
+	 * Método que na classe Controladora que faz a operação pedida pelo
+	 * utilizador e devolve uma String com o valor a apresentar no display
+	 * 
+	 * @param Não
+	 *            tem valores de entrada
+	 * @return Devolve uma String com o valor da expressao resultante do cálculo
+	 *         introduzido
 	 */
 	public String express() {
 
 		String mess = "";
 		try {
 			Expression e = new ExpressionBuilder(paramtext)
-					.variables("pi", "e").operator(factorial).function(cosd)
-					.function(sind).function(tand).function(sinhd)
-					.function(coshd).function(tanhd).function(asind)
-					.function(acosd).build().setVariable("pi", Math.PI)
-					.setVariable("e", Math.E);
+			.variables("pi", "e").operator(factorial).function(cosd)
+			.function(sind).function(tand).function(sinhd)
+			.function(coshd).function(tanhd).function(asind)
+			.function(acosd).build().setVariable("pi", Math.PI)
+			.setVariable("e", Math.E);
 			// resultado = String.valueOf(e.evaluate());
 			double res = e.evaluate();
+			Long start = System.nanoTime();
 			// _result = Double.toString(res);
 			if (res % 1 == 0)
 				mess = Integer.toString((int) res);
@@ -634,10 +689,15 @@ public class Calculadora implements Serializable {
 		}
 		return mess;
 	}
+
 	/**
-	 * Método que na classe Calculadora avalia o resultado de uma operacao 
-	 * @param x String com a expressao de calculo a avaliar pelo 'ExpressionBuilder'
-	 * @return Devolve uma String com o valor da expressao resultante do cálculo introduzido   
+	 * Método que na classe Calculadora avalia o resultado de uma operacao
+	 * 
+	 * @param x
+	 *            String com a expressao de calculo a avaliar pelo
+	 *            'ExpressionBuilder'
+	 * @return Devolve uma String com o valor da expressao resultante do cálculo
+	 *         introduzido
 	 */
 	public String avalia(String x) {
 
@@ -664,10 +724,14 @@ public class Calculadora implements Serializable {
 		}
 		return mess;
 	}
+
 	/**
-	 * Método que na classe Calculadora dá o último número introduzido pelo utilizador 
-	 * @param x String com a expressao actual no display
-	 * @return Devolve uma String com o valor do ultimo numero na expressao   
+	 * Método que na classe Calculadora dá o último número introduzido pelo
+	 * utilizador
+	 * 
+	 * @param x
+	 *            String com a expressao actual no display
+	 * @return Devolve uma String com o valor do ultimo numero na expressao
 	 */
 	public String ultimoNumero(String x) {
 		String tmp = "", saida = "";
@@ -687,10 +751,14 @@ public class Calculadora implements Serializable {
 		}
 		return saida;
 	}
+
 	/**
-	 * Método que na classe Calculadora elimina a operacao do historico definida pelo utilizador 
-	 * @param operacao referencia do item a remover do Array de historico
-	 *   
+	 * Método que na classe Calculadora elimina a operacao do historico definida
+	 * pelo utilizador
+	 * 
+	 * @param operacao
+	 *            referencia do item a remover do Array de historico
+	 * 
 	 */
 	public void doEliminar(Operacao operacao) {
 		historico.remove(operacao);

@@ -31,8 +31,18 @@
 
 						<h:outputText value="Padrão " style="color:#666" />
 						<h:commandLink class="mudapg" value="Científica" action="calc2" />
+						<h:outputText value=" OLÁ  " style="color:#fff" />
+						<h:outputLabel value="#{login.username}" style="color:#fff" />
+
+						<br />
+						<h:selectOneRadio styleClass="rdbtn" id="basica"
+							value="#{calculadora.basica}">							
+							<f:selectItem id="btnrad1" itemValue='true' itemLabel="Básica "/>							
+							<f:selectItem id="btnrad2" itemValue='false' itemLabel="Científica"/>
+							
+						</h:selectOneRadio>
+						<br />
 						
-						<h:commandLink class="mudapg" value="      Padrão - Java" action="calcjs" />
 						<h:panelGrid id="panel" columns="5" border="1" cellpadding="10"
 							cellspacing="1">
 							<f:facet name="header">
@@ -43,6 +53,7 @@
 
 							<h:commandButton class="btns-op" />
 							<h:commandButton class="btns-op" id="ce" value="CE"
+							    rendered="#{calculadora.basica=='true'}" 
 								actionListener="#{calculadora.keyAdd}" />
 							<h:commandButton class="btns-op" id="clear" value="C"
 								actionListener="#{calculadora.keyAdd}" />

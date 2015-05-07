@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head></h:head>
+<body>
+	<h:form>
+		<h:panelGroup
+			rendered="#{login.validationComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
+			<h:outputText
+				value="É necessário introduzir um Nome de utilizador válido!"
+				rendered="#{!login.isUsernameValid}" style="color:red"></h:outputText>
+			<br> <h:outputText value="A Password é um campo obrigatório!"
+					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
+			</br>
+			<br> <h:panelGroup
+					rendered="#{login.validationComplete and (login.isUsernameValid or login.isPasswordValid)}">
+					<h:outputText
+						value="Nome de utilizador e/ou Password não são válidas"
+						style="color:red"></h:outputText>
+				</h:panelGroup> </br>
+			<h:panelGroup
+				rendered="#{login.validationComplete and (login.isUsernameValid and login.isPasswordValid)}">
+				<h:outputText value="Nome de utilizador e Password são válidas"
+					style="color:green" action="index"></h:outputText>
+
+			</h:panelGroup>
+		</h:panelGroup>
+		<h:panelGroup
+			rendered="#{login.validRegComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
+			<h:outputText
+				value="Nome de utilizador não válido ou já existente (máx de 10 letras e/digitos e sem caracteres especiais)!"
+				rendered="#{!login.isUsernameValid}" style="color:red"></h:outputText>
+			<br> <h:outputText
+					value="A Password é um campo obrigatório (máx de 10 letras e/digitos e sem caracteres especiais)!"
+					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
+			</br>
+			<br> <h:panelGroup
+					rendered="#{login.regValid and (login.isUsernameValid and login.isPasswordValid)}">
+					<h:outputText
+						value=" Registo de novo utilizador com sucesso. Tente fazer agora o login!"
+						style="color:green"></h:outputText>
+				</h:panelGroup> </br>
+		</h:panelGroup>
+
+		<table>
+			<tr>
+				<td><h:outputText value="Introduzir o Nome de Utilizador: " /></td>
+				<td><h:inputText id="username" value="#{login.username}" /></td>
+			</tr>
+			<tr>
+				<td><h:outputText value="Enter Password: " /></td>
+				<td><h:inputSecret id="password" value="#{login.password}" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><h:commandButton value="Login"
+						action="#{login.checkValidity}" /></td>
+				<td><h:commandButton value="Novo Registo"
+						action="#{login.addUser}" /></td>
+			</tr>
+		</table>
+	</h:form>
+
+
+</body>
+</html>
