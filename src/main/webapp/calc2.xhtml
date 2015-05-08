@@ -29,6 +29,9 @@
 
 						<h:commandLink value="Padrão " action="index" />
 						<h:outputText value=" Científica" style="color:#666" />
+						<h:outputText value=" OLÁ  " style="color:#fff" />
+							<h:outputLabel value="#{login.username}" style="color:#fff" />
+						
 						<h:panelGrid id="panel" columns="9" border="1" cellpadding="10"
 							cellspacing="1">
 							<f:facet name="header">
@@ -171,7 +174,13 @@
 
 								<h:column>
 									<f:facet class="coluna" name="header" style="margin:20px"> Resultado </f:facet>
-									<h:outputText value="#{operacao.resultado}" style="margin:20px" />
+									<h:commandLink class="liga"
+										action="#{calculadora.noDisplay(operacao.resultado)}"
+										value="#{operacao.resultado}" style="margin:20px" />
+								</h:column>
+								<h:column>
+									<f:facet class="coluna" name="header" style="margin:20px"> Tempo Processamento </f:facet>
+									<h:outputText value="#{operacao.avgTime}" style="margin:20px" />
 								</h:column>
 
 								<h:column>

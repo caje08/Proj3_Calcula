@@ -6,6 +6,9 @@ import java.util.HashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
@@ -22,6 +25,8 @@ public class Login implements Serializable {
 	private boolean seguinte;
 	private boolean regValid;
 	private HashMap<String, String> user;
+//	@Inject
+//	private Calculadora activusr;
 
 	public Login() {
 		user = new HashMap<>();
@@ -137,6 +142,7 @@ public class Login implements Serializable {
 					isUsernameValid = true;
 					if (pw != null) {
 						user.put(chave, pw);
+//						activusr.setLogusrname(usr);
 						isPasswordValid = true;
 						regValid = true;
 					} else {
@@ -292,6 +298,7 @@ public class Login implements Serializable {
 		regValid = false;
 		if (this.username == null || this.username.equals("")) {
 			isUsernameValid = false;
+			FacesContext.getCurrentInstance().addMessage("loginusermsg", new FacesMessage("Error: Your password is NOT strong enough."));
 			validationComplete = true;
 		} else {
 			// procuraUser(username,password);

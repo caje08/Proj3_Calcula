@@ -33,11 +33,16 @@ public class Calculadora implements Serializable {
 	private ArrayList<Operacao> historico;
 	private ArrayList<String> linhacmd;
 	private ArrayList<Integer> linhaindx;
+	private String usrmsg;
+	private String activusr;
+	private String logusrname;
+	private int TAMANHO_MSG;
 	private String paramtext;
 	private String opang;
 	private Boolean angul, limpar;
 	private int conta;
 	private int cecont;
+	private long start, finish, dif;
 	private Boolean basica;
 	private String modopera; // modo de operacao ("basic" - Básico; "cientif" -
 	// Cientifica)
@@ -46,6 +51,10 @@ public class Calculadora implements Serializable {
 	// concatene o valor
 	@Inject
 	private Stats stats;
+	@Inject
+	private Chatarray mensagens;
+	@Inject
+	private Login utilizador;
 
 	// private String explang="1+1";
 
@@ -63,10 +72,67 @@ public class Calculadora implements Serializable {
 		this.cecont = 0;
 		this.modopera = "basic";// Por defeito o modo de operacao é o da
 		this.basica = true; // calculadora básica
+		this.start = 0L;
+		this.finish = 0L;
+		this.dif = 0l;
+		this.usrmsg = "";
+		this.TAMANHO_MSG = 200;
+		this.logusrname = "";
+		this.activusr = "";
+	}
+
+	public void enviarMsg(String usr) {
+		int lm = usrmsg.length();
+		Chatclass m = new Chatclass();
+		String datahora, error;
+
+		activusr = usr;
+		if (!usrmsg.isEmpty() && lm < TAMANHO_MSG) {
+			datahora = m.getDateWithHours();
+			m.setUsermsg(usrmsg);
+			m.setUserID(usr);
+
+			mensagens.addConcurrentMsg(m);
+
+		} else {
+			if (lm < TAMANHO_MSG)
+				error = "Mensagem de tamanho superior a " + TAMANHO_MSG
+						+ " caracteres!";
+			else
+				error = "Tem que escrever algo!";
+		}
+	}
+
+	public String getLogusrname() {
+		return logusrname;
+	}
+
+	public void setLogusrname(String logusrname) {
+		this.logusrname = logusrname;
+	}
+
+	public void limparUserMsg() {
+		this.usrmsg = "";
+	}
+
+	public String getUsrmsg() {
+		return usrmsg;
+	}
+
+	public void setUsrmsg(String usrmsg) {
+		this.usrmsg = usrmsg;
+	}
+
+	public Chatarray getMensagens() {
+		return mensagens;
+	}
+
+	public void setMensagens(Chatarray mensagens) {
+		this.mensagens = mensagens;
 	}
 
 	public boolean getBasica() {
-		//System.out.println("Basica = "+basica);
+		// System.out.println("Basica = "+basica);
 		return basica;
 	}
 
@@ -323,12 +389,13 @@ public class Calculadora implements Serializable {
 			break;
 		case "igual":
 			if (paramtext.length() > 0) {
-
+				start = System.nanoTime();
 				txt = express();
-
-				operacao = new Operacao(conta, paramtext, txt);
-				historico.add(operacao);
-				nomes.add(operacao.getComando());
+				if (finish > 0)
+					dif = ((finish - start) / (1000));
+				operacao = new Operacao(conta, paramtext, txt, dif);
+				historico.add(0, operacao);
+				nomes.add(0, operacao.getComando());
 				// stats.addStats(operacao.getComando(),linhcomand,numcmd);
 				// stats.newaddStats(linhacmd);
 				// linhcomand = "";
@@ -397,7 +464,7 @@ public class Calculadora implements Serializable {
 			linhacmd.add("sin");
 			indx = paramtext.length();
 			linhaindx.add(indx);
-		//	System.out.println("Flag =" + getAngul());
+			// System.out.println("Flag =" + getAngul());
 			if (getAngul())
 				txt = "sin(";
 			else
@@ -662,14 +729,14 @@ public class Calculadora implements Serializable {
 		String mess = "";
 		try {
 			Expression e = new ExpressionBuilder(paramtext)
-			.variables("pi", "e").operator(factorial).function(cosd)
-			.function(sind).function(tand).function(sinhd)
-			.function(coshd).function(tanhd).function(asind)
-			.function(acosd).build().setVariable("pi", Math.PI)
-			.setVariable("e", Math.E);
+					.variables("pi", "e").operator(factorial).function(cosd)
+					.function(sind).function(tand).function(sinhd)
+					.function(coshd).function(tanhd).function(asind)
+					.function(acosd).build().setVariable("pi", Math.PI)
+					.setVariable("e", Math.E);
 			// resultado = String.valueOf(e.evaluate());
 			double res = e.evaluate();
-			Long start = System.nanoTime();
+			finish = System.nanoTime();
 			// _result = Double.toString(res);
 			if (res % 1 == 0)
 				mess = Integer.toString((int) res);

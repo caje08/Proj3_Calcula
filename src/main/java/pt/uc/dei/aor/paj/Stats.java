@@ -3,6 +3,7 @@ package pt.uc.dei.aor.paj;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
@@ -29,6 +30,7 @@ public class Stats implements Serializable {
 		estatisticas = new ArrayList<Operacao>();
 	}
 
+
 	public void addMap(String k, String v) {
 		this.map.put(k, v);
 	}
@@ -49,7 +51,7 @@ public class Stats implements Serializable {
 		for (int j = 0; j < ncmd; j++) {
 			comd = cmd.get(j);
 			if (dim == 0) {
-				strop = new Operacao(1, comd, "");
+				strop = new Operacao(1, comd, "",0l);
 				this.estatisticas.add(strop);
 				dim = estatisticas.size();
 			} else {
@@ -61,7 +63,7 @@ public class Stats implements Serializable {
 						i = dim;
 					} else {
 						if (i + 1 == dim) {
-							strop = new Operacao(1, comd, "");
+							strop = new Operacao(1, comd, "",0l);
 							this.estatisticas.add(strop);
 
 						}

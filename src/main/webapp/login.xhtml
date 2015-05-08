@@ -48,11 +48,14 @@
 		<table>
 			<tr>
 				<td><h:outputText value="Introduzir o Nome de Utilizador: " /></td>
-				<td><h:inputText id="username" value="#{login.username}" /></td>
+				<td><h:inputText id="username" value="#{login.username}" /> <h:messages
+						for="loginusermsg" /></td>
+
 			</tr>
 			<tr>
 				<td><h:outputText value="Enter Password: " /></td>
-				<td><h:inputSecret id="password" value="#{login.password}" /></td>
+				<td><h:inputSecret id="password" value="#{login.password}" />
+					<h:messages for="loginpassmsg" /></td>
 			</tr>
 			<tr>
 				<td></td>

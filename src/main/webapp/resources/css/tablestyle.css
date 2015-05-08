@@ -1,0 +1,24 @@
+@CHARSET "ISO-8859-1";
+.chatTable {
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+.chatTableHeader {
+	text-align: center;
+	background: none repeat scroll 0 0 #B5B5B5;
+	border-bottom: 1px solid #000000;
+	padding: 2px;
+}
+
+.chatTableOddRow {
+	text-align: center;
+	background: none repeat scroll 0 0 #FFFFFFF;
+}
+
+.chatTableEvenRow {
+	text-align: center;
+	background: none repeat scroll 0 0 #D3D3D3;
+}
+ISO-8859-1
+";
