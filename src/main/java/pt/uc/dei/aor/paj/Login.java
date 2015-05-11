@@ -18,6 +18,7 @@ public class Login implements Serializable {
 	private static final long serialVersionUID = 97653816888614094L;
 	private String username;
 	private String password;
+	private String repassword;
 	private boolean isUsernameValid;
 	private boolean isPasswordValid;
 	private boolean validationComplete;
@@ -42,6 +43,15 @@ public class Login implements Serializable {
 		this.regValid = false;
 	}
 
+	public String userLogout(){
+		this.username = "";
+		this.password = "";
+		this.repassword = "";
+		this.isPasswordValid = false;
+		this.isUsernameValid = false;
+		this.regValid = false;
+		return "login";
+	}
 	public boolean getRegValid() {
 		return regValid;
 	}
@@ -239,6 +249,15 @@ public class Login implements Serializable {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	public String getRepassword() {
+		return repassword;
+	}
+
+	public void setRepassword(String repassword) {
+		this.repassword = repassword;
 	}
 
 	/**

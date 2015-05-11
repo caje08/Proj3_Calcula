@@ -33,6 +33,7 @@ public class Calculadora implements Serializable {
 	private ArrayList<Operacao> historico;
 	private ArrayList<String> linhacmd;
 	private ArrayList<Integer> linhaindx;
+	private ArrayList<String> bckpCMD;
 	private String usrmsg;
 	private String activusr;
 	private String logusrname;
@@ -44,6 +45,7 @@ public class Calculadora implements Serializable {
 	private int cecont;
 	private long start, finish, dif;
 	private Boolean basica;
+	private Boolean loginusr;
 	private String modopera; // modo de operacao ("basic" - Básico; "cientif" -
 	// Cientifica)
 	private int contador; // for�a que ap�s o igual ('='), o pr�ximo
@@ -53,8 +55,8 @@ public class Calculadora implements Serializable {
 	private Stats stats;
 	@Inject
 	private Chatarray mensagens;
-	@Inject
-	private Login utilizador;
+//	@Inject
+//	private Login utilizador;
 
 	// private String explang="1+1";
 
@@ -63,6 +65,7 @@ public class Calculadora implements Serializable {
 		this.historico = new ArrayList<Operacao>();
 		this.linhacmd = new ArrayList<String>();
 		this.linhaindx = new ArrayList<Integer>();
+		this.bckpCMD = new ArrayList<String>();
 		this.paramtext = "";
 		this.angul = true;
 		this.limpar = false;
@@ -72,6 +75,8 @@ public class Calculadora implements Serializable {
 		this.cecont = 0;
 		this.modopera = "basic";// Por defeito o modo de operacao é o da
 		this.basica = true; // calculadora básica
+		this.loginusr = true; // Fazer login . se 'false' indica fazer Novo
+								// Registo
 		this.start = 0L;
 		this.finish = 0L;
 		this.dif = 0l;
@@ -80,6 +85,15 @@ public class Calculadora implements Serializable {
 		this.logusrname = "";
 		this.activusr = "";
 	}
+
+//	public String userLogout() {
+//		utilizador.userLogout();
+//		return "login";
+//	}
+//
+//	public void userLogin() {
+//		utilizador.checkValidity();
+//	}
 
 	public void enviarMsg(String usr) {
 		int lm = usrmsg.length();
@@ -132,12 +146,22 @@ public class Calculadora implements Serializable {
 	}
 
 	public boolean getBasica() {
-		// System.out.println("Basica = "+basica);
+		 System.out.println("Basica = "+basica);
 		return basica;
 	}
 
 	public void setBasica(boolean basica) {
 		this.basica = basica;
+	}
+
+	public Boolean getLoginusr() {
+		System.out.println("get Calculadora loginusr=" + loginusr);
+		return loginusr;
+	}
+
+	public void setLoginusr(Boolean loginusr) {
+		System.out.println("set loginusr=" + loginusr);
+		this.loginusr = loginusr;
 	}
 
 	public String getModopera() {
@@ -243,6 +267,18 @@ public class Calculadora implements Serializable {
 		paramtext = x;
 	}
 
+	public String mudaPagina(ActionEvent e) {
+		String saida = "";
+		if (e.getComponent().getId().compareTo("btnrad1") == 0) {
+			if (!basica)
+				saida = "index";
+		} else if (e.getComponent().getId().compareTo("btnrad2") == 0) {
+			if (basica)
+				saida = "calc2";
+		}
+		return saida;
+	}
+
 	/**
 	 * Método que na classe Calculadora analiza o evento da tecla pressionada
 	 * pelo utilizador
@@ -263,6 +299,7 @@ public class Calculadora implements Serializable {
 		Operacao operacao;
 
 		switch (event.getComponent().getId()) {
+
 		case "n0":
 			txt = "0";
 			break;
@@ -295,7 +332,7 @@ public class Calculadora implements Serializable {
 			break;
 		case "mais":
 			linhacmd.add("+");
-			indx = paramtext.length();
+			indx = paramtext.length() + 1;
 			linhaindx.add(indx);
 			txt = "+";
 			// linhcomand += txt + ",";
@@ -304,7 +341,7 @@ public class Calculadora implements Serializable {
 			break;
 		case "menos":
 			linhacmd.add("-");
-			indx = paramtext.length();
+			indx = paramtext.length() + 1;
 			linhaindx.add(indx);
 			txt = "-";
 			// linhcomand += txt + ",";
@@ -313,7 +350,7 @@ public class Calculadora implements Serializable {
 			break;
 		case "multip":
 			linhacmd.add("*");
-			indx = paramtext.length();
+			indx = paramtext.length() + 1;
 			linhaindx.add(indx);
 			txt = "*";
 			// linhcomand += txt + ",";
@@ -322,7 +359,7 @@ public class Calculadora implements Serializable {
 			break;
 		case "divis":
 			linhacmd.add("/");
-			indx = paramtext.length();
+			indx = paramtext.length() + 1;
 			linhaindx.add(indx);
 			txt = "/";
 			// linhcomand += txt + ",";
@@ -334,24 +371,31 @@ public class Calculadora implements Serializable {
 			flag = true;
 			break;
 		case "percent":
-			linhacmd.add("%");
-			indx = paramtext.length();
-			linhaindx.add(indx);
+			// linhacmd.add("%");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
 			txt = ultimoNumero(paramtext);
 			nc = txt.length();
 			if (txt.length() > 0) {
 				txt = avalia(txt + "/100");
-			} else
+				linhacmd.add("%");
+				indx = paramtext.length() + txt.length();
+				linhaindx.add(indx);
+			} else {
 				txt = "";
+			}
+
 			// linhcomand += "%,";
 			// numcmd++;
 
 			break;
 		case "bcksp":
 			if (paramtext.length() > 0 && !limpar) {
-				paramtext = paramtext.substring(0, paramtext.length() - 1);
+
 				if (linhaindx.size() > 0)
 					checkIndx(paramtext.length());
+				else
+					paramtext = paramtext.substring(0, paramtext.length() - 1);
 			} else
 				paramtext = "";
 			break;
@@ -376,13 +420,22 @@ public class Calculadora implements Serializable {
 				paramtext = "";
 			break;
 		case "maismenos":
-			linhacmd.add("+/-");
-			indx = paramtext.length();
-			linhaindx.add(indx);
+			// linhacmd.add("+/-");
+			// indx = paramtext.length()+ linhacmd.get(linhacmd.size() -
+			// 1).length();
+			// linhaindx.add(indx);
 			txt = ultimoNumero(paramtext);
 			nc = txt.length();
-			if (txt.charAt(0) != '-')
+			if (nc > 0) {
+				linhacmd.add("+/" + txt + "-");
 				txt = "(-" + txt + ")";
+				indx = paramtext.length() + txt.length();
+				linhaindx.add(indx);
+			}
+			// else
+			// linhacmd.add("+/-");
+
+			// linhaindx.add(indx);
 			// linhcomand += "+/-,";
 			// numcmd++;
 
@@ -409,7 +462,8 @@ public class Calculadora implements Serializable {
 			break;
 		case "sqrt":
 			linhacmd.add("sqrt");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length();
 			linhaindx.add(indx);
 			txt = "sqrt";
 			// linhcomand += "," + txt;
@@ -421,7 +475,8 @@ public class Calculadora implements Serializable {
 			break;
 		case "umdivx":
 			linhacmd.add("1/x");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() - 1;
 			linhaindx.add(indx);
 			txt = ultimoNumero(paramtext);
 			nc = txt.length();
@@ -432,7 +487,8 @@ public class Calculadora implements Serializable {
 
 		case "ln":
 			linhacmd.add("log");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() + 1;
 			linhaindx.add(indx);
 			txt = "log(";
 			break;
@@ -443,117 +499,189 @@ public class Calculadora implements Serializable {
 			txt = ")";
 			break;
 		case "asin":
-			linhacmd.add("asin");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("asin");
+			// indx = paramtext.length()
+			// + linhacmd.get(linhacmd.size() - 1).length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "asin(";
-			else
+				linhacmd.add("asin");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
 				txt = "asind(";
+				linhacmd.add("asind");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "sinh":
-			linhacmd.add("sinh");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("sinh");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "sinh(";
-			else
+				linhacmd.add("sinh");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
 				txt = "sinhd(";
+				linhacmd.add("sinhd");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "sin":
-			linhacmd.add("sin");
-			indx = paramtext.length();
-			linhaindx.add(indx);
+			// linhacmd.add("sin");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
 			// System.out.println("Flag =" + getAngul());
-			if (getAngul())
+			if (getAngul()) {
 				txt = "sin(";
-			else
+				linhacmd.add("sin");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
 				txt = "sind(";
+				linhacmd.add("sind");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "xquad":
 			linhacmd.add("x^2");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() - 1;
 			linhaindx.add(indx);
 			txt = "^2";
 			break;
 		case "nfact":
 			linhacmd.add("n!");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length();
 			linhaindx.add(indx);
 			txt = "!(";
 			break;
 		case "acos":
-			linhacmd.add("acos");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("acos");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "acos(";
-			else
+				linhacmd.add("acos");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
 				txt = "acosd(";
+				linhacmd.add("acosd");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "cosh":
-			linhacmd.add("cosh");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("cosh");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "cosh(";
-			else
+				linhacmd.add("cosh");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
 				txt = "coshd(";
+				linhacmd.add("coshd");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "cos":
-			linhacmd.add("cos");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("cos");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "cos(";
-			else
+				linhacmd.add("cos");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
 				txt = "cosd(";
+				linhacmd.add("cosd");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "xlevy":
 			linhacmd.add("x^y");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length();
 			linhaindx.add(indx);
 			txt = "^(";
 			break;
 		case "raizdey":
 			linhacmd.add("y√x");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() + 1;
 			linhaindx.add(indx);
 			txt = "^(1/";
 			break;
 		case "pi":
 			linhacmd.add("π");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() + 1;
 			linhaindx.add(indx);
 			txt = "pi";
 			break;
 		case "tanh":
-			linhacmd.add("tanh");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("tanh");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "tanh(";
-			else
+				linhacmd.add("tanh");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
+				linhacmd.add("tanhd");
 				txt = "tanhd(";
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "tan":
-			linhacmd.add("tan");
-			indx = paramtext.length();
-			linhaindx.add(indx);
-			if (getAngul())
+			// linhacmd.add("tan");
+			// indx = paramtext.length();
+			// linhaindx.add(indx);
+			if (getAngul()) {
 				txt = "tan(";
-			else
+				linhacmd.add("tan");
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			} else {
+				linhacmd.add("tand");
 				txt = "tand(";
+				indx = paramtext.length()
+						+ linhacmd.get(linhacmd.size() - 1).length() + 1;
+			}
+			linhaindx.add(indx);
 			break;
 		case "xcub":
 			linhacmd.add("x^3");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length();
 			linhaindx.add(indx);
 			txt = "^3";
 			break;
 		case "raizde3":
 			linhacmd.add("3√x");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() + 3;
 			linhaindx.add(indx);
 			txt = "^(1/3)";
 			break;
@@ -565,25 +693,29 @@ public class Calculadora implements Serializable {
 			break;
 		case "expx":
 			linhacmd.add("e^x");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length();
 			linhaindx.add(indx);
 			txt = "e^(";
 			break;
 		case "log2":
 			linhacmd.add("log2");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() + 1;
 			linhaindx.add(indx);
 			txt = "log2(";
 			break;
 		case "log10":
 			linhacmd.add("log10");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length() + 1;
 			linhaindx.add(indx);
 			txt = "log10(";
 			break;
 		case "dezx":
 			linhacmd.add("10^x");
-			indx = paramtext.length();
+			indx = paramtext.length()
+					+ linhacmd.get(linhacmd.size() - 1).length();
 			linhaindx.add(indx);
 			txt = "10^(";
 			break;
@@ -622,12 +754,31 @@ public class Calculadora implements Serializable {
 	 */
 	public void checkIndx(int n) {
 		int dim = linhaindx.size();
+		int l = 0;
 
 		// for(int i=dim-1; i>0; i--){
 		if (linhaindx.get(dim - 1) >= n) {
+			l = linhacmd.get(dim - 1).length();
+			String st = linhacmd.get(dim - 1);
+			if (st.equals("sinh") || st.equals("sin") || st.equals("acos")
+					|| st.equals("cosh") || st.equals("cos")
+					|| st.equals("y√x") || st.equals("π") || st.equals("tan")
+					|| st.equals("tanh") || st.equals("log10")
+					|| st.equals("log") || st.equals("log2")
+					|| st.equals("sinhd") || st.equals("sind")
+					|| st.equals("acosd") || st.equals("coshd")
+					|| st.equals("cosd") || st.equals("tand")
+					|| st.equals("tanhd") || st.equals("asin")) {
+				l = l + 1;
+			} else if (st.equals("3√x")) {
+				l = l + 3;
+			}
+
+			paramtext = paramtext.substring(0, paramtext.length() - l);
 			linhacmd.remove(dim - 1);
 			linhaindx.remove(dim - 1);
-		}
+		} else
+			paramtext = paramtext.substring(0, paramtext.length() - 1);
 		// }
 	}
 
@@ -705,13 +856,14 @@ public class Calculadora implements Serializable {
 	Function asind = new Function("asind", 1) {
 		@Override
 		public double apply(double... args) {
-			return Math.asin(Math.toRadians(args[0]));
+
+			return (180 / Math.PI) * Math.asin(args[0]);
 		}
 	};
 	Function acosd = new Function("acosd", 1) {
 		@Override
 		public double apply(double... args) {
-			return Math.acos(Math.toRadians(args[0]));
+			return (180 / Math.PI) * Math.acos(args[0]);
 		}
 	};
 
@@ -742,9 +894,14 @@ public class Calculadora implements Serializable {
 				mess = Integer.toString((int) res);
 			else
 				mess = Double.toString(res);
-			stats.newaddStats(linhacmd);
-			linhacmd.removeAll(linhacmd);
-			linhaindx.removeAll(linhaindx);
+
+			if (!mess.equals("NaN")) {
+				updateCMD(linhacmd);
+				stats.newaddStats(linhacmd);
+				bckupCMD();
+			}
+			// linhacmd.removeAll(linhacmd);
+			// linhaindx.removeAll(linhaindx);
 		} catch (IllegalArgumentException o) {
 			o.getMessage();
 			mess = "Erro de sintaxe";
@@ -754,7 +911,58 @@ public class Calculadora implements Serializable {
 			mess = "Divisão por zero";
 			contador = 2;
 		}
+		linhacmd.removeAll(linhacmd);
+		linhaindx.removeAll(linhaindx);
 		return mess;
+	}
+
+	public void bckupCMD() {
+		int siz = linhacmd.size();
+		String tmp = "";
+
+		for (int i = 0; i < siz; i++) {
+			tmp = tmp + linhacmd.get(i) + "," + linhaindx.get(i);
+		}
+		bckpCMD.add(tmp);
+	}
+
+	public void reporCMDs(int z) {
+		int ncmd = bckpCMD.size();
+		String tmp = bckpCMD.get(z);
+		String[] st2;
+
+		linhacmd.removeAll(linhacmd);
+		linhaindx.removeAll(linhaindx);
+		st2 = tmp.split(",");
+		for (int i = 0; i < st2.length; i++) {
+			linhacmd.add(st2[i]);
+			linhaindx.add(Integer.parseInt(st2[i + 1]));
+			i++;
+		}
+	}
+
+	public void updateCMD(ArrayList<String> cmd) {
+		int siz = cmd.size();
+
+		for (int i = 0; i < siz; i++) {
+			if (cmd.get(i).equals("sinhd")) {
+				cmd.set(i, "sinh");
+			} else if (cmd.get(i).equals("sind")) {
+				cmd.set(i, "sin");
+			} else if (cmd.get(i).equals("acosd")) {
+				cmd.set(i, "acos");
+			} else if (cmd.get(i).equals("coshd")) {
+				cmd.set(i, "cosh");
+			} else if (cmd.get(i).equals("cosd")) {
+				cmd.set(i, "cos");
+			} else if (cmd.get(i).equals("asind")) {
+				cmd.set(i, "asin");
+			} else if (cmd.get(i).equals("tand")) {
+				cmd.set(i, "tan");
+			} else if (cmd.get(i).equals("tanhd")) {
+				cmd.set(i, "tanh");
+			}
+		}
 	}
 
 	/**

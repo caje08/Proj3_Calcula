@@ -29,7 +29,7 @@ public class Chatarray implements Serializable {
 		store = new CopyOnWriteArrayList<Chatclass>();
 		this.concurrentmsg = new ConcurrentHashMap<String, Chatclass>();
 	}
-
+	
 	public void addConcurrentMsg(Chatclass msg) {
 		key = Integer.toString(IDarray + 1);
 		concurrentmsg.put(key, msg);

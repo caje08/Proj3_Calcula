@@ -16,6 +16,9 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script
 		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+
 </h:head>
 
 <h:body class="layout">
@@ -35,8 +38,21 @@
 
 							<h:outputText value="Padrão " style="color:#666" />
 							<h:commandLink class="mudapg" value="Científica" action="calc2" />
-							<h:outputText value=" OLÁ  " style="color:#fff" />
-							<h:outputLabel value="#{login.username}" style="color:#fff" />
+							<h:outputText value="   OLÁ  " style="color:#fff" />
+
+							<h:panelGroup
+								rendered="#{!login.validRegComplete or (!login.isUsernameValid or !login.isPasswordValid)}"
+								action="login">
+								<h:outputText value="Nome de utilizador não válido !"
+									rendered="#{!login.isUsernameValid}" style="color:red"
+									action="login"></h:outputText>
+
+							</h:panelGroup>>
+
+								<h:outputLabel value="#{login.username}" style="color:#fff" />
+							<h:commandLink class="mudapg"
+								style="font-color:red; font-size:15px" value="    logout"
+								action="#{login.userLogout}" />
 
 							<br />
 							<h:selectOneRadio styleClass="rdbtn" id="basica"
@@ -47,9 +63,18 @@
 
 							</h:selectOneRadio>
 							<br />
+							<br />
+							<h:selectOneRadio styleClass="rdbtn" id="loginusr"
+								value="#{calculadora.loginusr}">
+								<f:selectItem id="btnlog1" itemValue='true' itemLabel="login " />
+								<f:selectItem id="btnlog2" itemValue='false'
+									itemLabel="Definir Novo Registo" />
+
+							</h:selectOneRadio>
+							<br />
 
 							<h:panelGrid id="panel" columns="5" border="1" cellpadding="10"
-								cellspacing="1">
+								cellspacing="1" rendered="#{calculadora.basica=='true'}">
 								<f:facet name="header">
 									<h:outputLabel for="paramtext" />
 									<h:inputText class="input-box" id="paramtext"
@@ -57,9 +82,7 @@
 								</f:facet>
 
 								<h:commandButton class="btns-op" />
-								<h:commandButton class="btns-op" id="ce" value="CE"
-									rendered="#{calculadora.basica=='true'}"
-									actionListener="#{calculadora.keyAdd}" />
+								<h:commandButton class="btns-op" id="ce" value="CE" />
 								<h:commandButton class="btns-op" id="clear" value="C"
 									actionListener="#{calculadora.keyAdd}" />
 								<h:commandButton class="btns-op" id="bcksp" value="&larr;"
@@ -109,6 +132,7 @@
 								<h:commandButton class="btns-op" />
 							</h:panelGrid>
 							<br />
+
 							<br />
 							<h4 class="title-est">Histórico de Operações</h4>
 
@@ -137,7 +161,7 @@
 											value="#{operacao.resultado}" style="margin:20px" />
 									</h:column>
 									<h:column>
-										<f:facet class="coluna" name="header" style="margin:20px"> Tempo Processamento (&#1281;s) </f:facet>
+										<f:facet class="coluna" name="header" style="margin:20px"> Tempo Processamento (&#181;s) </f:facet>
 										<h:outputText value="#{operacao.avgTime}" style="margin:20px" />
 									</h:column>
 									<h:column>
@@ -150,7 +174,6 @@
 							</div>
 
 							<h4 class="title-est">Histórico de Mensagens</h4>
-							<br />
 							<br />
 							<h:form id="chatarray">
 								<div style="width: 770px; height: 100px; overflow: auto;">
@@ -177,29 +200,27 @@
 									</h:dataTable>
 								</div>
 								<br />
-								<div>
-									<table class="chatTable">
-										<tr>
-											<td><h:outputText value="Mensagem a enviar: "
-													style="color:white; font:15px" /></td>
-											<td><h:inputText id="mensagemuser"
-													value="#{calculadora.usrmsg}" /> <h:messages for="usermsg" /></td>
-										</tr>
 
-										<tr>
-											<td></td>
-											<td><h:commandButton value="Enviar Mensagem"
-													action="#{calculadora.enviarMsg(login.username)}"
-													style="color:green; font:15px" /></td>
-											<td><h:commandButton value="Limpar Mensagem"
-													action="#{calculadora.limparUserMsg}"
-													style="color:red; font:15px" /></td>
-										</tr>
-									</table>
-								</div>
+								<table class="chatTable">
+									<tr>
+										<td><h:outputText value="Mensagem a enviar: "
+												style="color:white; font:15px" /></td>
+										<td><h:inputText id="mensagemuser"
+												value="#{calculadora.usrmsg}" /> <h:messages for="usermsg" /></td>
+									</tr>
+
+									<tr>
+										<td></td>
+										<td><h:commandButton value="Enviar Mensagem"
+												action="#{calculadora.enviarMsg(login.username)}"
+												style="color:green; font:15px" /></td>
+										<td><h:commandButton value="Limpar Mensagem"
+												action="#{calculadora.limparUserMsg}"
+												style="color:red; font:15px" /></td>
+									</tr>
+								</table>
+
 							</h:form>
-
-
 						</h:form>
 
 					</div>

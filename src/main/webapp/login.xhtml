@@ -6,7 +6,11 @@
 
 <h:head></h:head>
 <body>
-	<h:form>
+	<h:form id="logusers">
+		<h1 class="title">LOGIN DE UTILIZADORES NA APLICAÇÃO</h1>
+		<h:outputText value="REGISTO DE NOVOS UTILIZADORES NA APLICAÇÃO"
+			rendered="#{!calculadora.loginusr}"></h:outputText>
+
 		<h:panelGroup
 			rendered="#{login.validationComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
 			<h:outputText
@@ -45,26 +49,45 @@
 				</h:panelGroup> </br>
 		</h:panelGroup>
 
-		<table>
-			<tr>
-				<td><h:outputText value="Introduzir o Nome de Utilizador: " /></td>
-				<td><h:inputText id="username" value="#{login.username}" /> <h:messages
-						for="loginusermsg" /></td>
+		<div id="login" style="width: 400px; height: 400px">
+			<table>
+				<tr>
+					<td><h:outputText value="Nome de Utilizador: " /></td>
+					<td><h:inputText id="username" value="#{login.username}" /> <h:messages /></td>
 
-			</tr>
-			<tr>
-				<td><h:outputText value="Enter Password: " /></td>
-				<td><h:inputSecret id="password" value="#{login.password}" />
-					<h:messages for="loginpassmsg" /></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><h:commandButton value="Login"
-						action="#{login.checkValidity}" /></td>
-				<td><h:commandButton value="Novo Registo"
-						action="#{login.addUser}" /></td>
-			</tr>
-		</table>
+				</tr>
+				<tr>
+					<td><h:outputText value="Password: " /></td>
+					<td><h:inputSecret id="password" value="#{login.password}" />
+						<h:messages /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="Repetir Password: "
+							rendered="#{!calculadora.loginusr}" /></td>
+					<td><h:inputSecret id="password2" value="#{login.repassword}"
+							rendered="#{!calculadora.loginusr}" /> <h:messages /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h:commandButton value="Login"
+							action="#{login.checkValidity()}" /></td>
+					<td><h:commandButton value="Novo Registo"
+							rendered="#{!calculadora.loginusr}" action="#{login.addUser}" /></td>
+				</tr>
+			</table>
+
+
+
+		</div>
+		<h:selectOneRadio styleClass="rdbtn" id="loginusr"
+			value="#{calculadora.loginusr}">
+			<f:selectItem id="btnlog1" itemValue='true' itemLabel="login " />
+			<f:selectItem id="btnlog2" itemValue='false'
+				itemLabel="Definir Novo Registo" />
+
+		</h:selectOneRadio>
+
+
 	</h:form>
 
 
