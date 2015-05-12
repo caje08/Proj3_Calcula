@@ -49,7 +49,7 @@
 
 }
 .title{
-	color:rgb(153,255,51);
+	color:#99ff3315325551;
 	font-size: 20px;
 	text-align:left;
 	margin-left:5px;
@@ -219,17 +219,21 @@ a:link:active, a:visited:active {
     line-height: 38px;
  	text-align: center;
 	position: relative; 
-    background: rgb(252,252,252);
+    background: rgb(252, 252, 252);
     color: #414F5B;
     cursor: pointer;
-    font-family: arial,verdana;
+    font-family: arial, verdana;
     font-style: normal;
     resize: none;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
     border-width: 2px;
+    border
      white-space: nowrap;
+	border-color: Black;
+	background-color: CadetBlue;
+	border-style: none
          
  }
  

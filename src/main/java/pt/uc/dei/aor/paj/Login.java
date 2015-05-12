@@ -21,13 +21,15 @@ public class Login implements Serializable {
 	private String repassword;
 	private boolean isUsernameValid;
 	private boolean isPasswordValid;
+	private boolean isRePasswordValid;
 	private boolean validationComplete;
 	private boolean validRegComplete;
 	private boolean seguinte;
 	private boolean regValid;
 	private HashMap<String, String> user;
-//	@Inject
-//	private Calculadora activusr;
+
+	// @Inject
+	// private Calculadora activusr;
 
 	public Login() {
 		user = new HashMap<>();
@@ -36,14 +38,16 @@ public class Login implements Serializable {
 		validationComplete = false;
 		validRegComplete = false;
 		this.isPasswordValid = false;
+		this.isRePasswordValid = false;
 		this.isUsernameValid = false;
 		this.seguinte = false;
 		this.password = "";
+		this.repassword = "";
 		this.username = "";
 		this.regValid = false;
 	}
 
-	public String userLogout(){
+	public String userLogout() {
 		this.username = "";
 		this.password = "";
 		this.repassword = "";
@@ -52,6 +56,7 @@ public class Login implements Serializable {
 		this.regValid = false;
 		return "login";
 	}
+
 	public boolean getRegValid() {
 		return regValid;
 	}
@@ -125,13 +130,12 @@ public class Login implements Serializable {
 	 *            the username password
 	 */
 	public void addUser() {
-		String chave, usr = username, pw = password;
+		String chave, usr = username, pw = password, rp = repassword;
 		validationComplete = false;
 		if (this.username == null || this.username.equals("")) {
 			isUsernameValid = false;
 			validRegComplete = true;
 		} else {
-
 			isUsernameValid = true;
 			validRegComplete = true;
 		}
@@ -142,9 +146,16 @@ public class Login implements Serializable {
 			isPasswordValid = true;
 			validRegComplete = true;
 		}
-		if (isUsernameValid && isPasswordValid) {
-			testRegist(usr, pw);
-			if (isUsernameValid && isPasswordValid) {
+		if (this.repassword == null || this.repassword.equals("")) {
+			isRePasswordValid = false;
+			validRegComplete = true;
+		} else {
+			isRePasswordValid = true;
+			validRegComplete = true;
+		}
+		if (isUsernameValid && isPasswordValid && isRePasswordValid) {
+			testRegist(usr, pw, rp);
+			if (isUsernameValid && isPasswordValid && isRePasswordValid) {
 				isUsernameValid = false;
 				isPasswordValid = false;
 				chave = criaChave(usr);
@@ -152,7 +163,7 @@ public class Login implements Serializable {
 					isUsernameValid = true;
 					if (pw != null) {
 						user.put(chave, pw);
-//						activusr.setLogusrname(usr);
+						// activusr.setLogusrname(usr);
 						isPasswordValid = true;
 						regValid = true;
 					} else {
@@ -175,7 +186,7 @@ public class Login implements Serializable {
 	 * @param pw
 	 *            the username password
 	 */
-	public void testRegist(String st, String pw) {
+	public void testRegist(String st, String pw, String rp) {
 		int ns = st.length();
 		int np = pw.length();
 
@@ -198,7 +209,13 @@ public class Login implements Serializable {
 					if ((pw.charAt(i) >= 'a' && pw.charAt(i) <= 'z')
 							|| (pw.charAt(i) >= 'A' && pw.charAt(i) <= 'Z')
 							|| (pw.charAt(i) >= '0' && pw.charAt(i) <= '9')) {
-						isPasswordValid = true;
+						if (pw.equals(rp)) {
+							isPasswordValid = true;
+							isRePasswordValid = true;
+						} else {
+							isPasswordValid = true;
+							isRePasswordValid = false;
+						}
 					} else {
 						i = np;
 						isPasswordValid = false;
@@ -251,13 +268,20 @@ public class Login implements Serializable {
 		this.password = password;
 	}
 
-	
 	public String getRepassword() {
 		return repassword;
 	}
 
 	public void setRepassword(String repassword) {
 		this.repassword = repassword;
+	}
+
+	public boolean getisRePasswordValid() {
+		return isRePasswordValid;
+	}
+
+	public void setisRePasswordValid(boolean isRePasswordValid) {
+		this.isRePasswordValid = isRePasswordValid;
 	}
 
 	/**
@@ -317,7 +341,10 @@ public class Login implements Serializable {
 		regValid = false;
 		if (this.username == null || this.username.equals("")) {
 			isUsernameValid = false;
-			FacesContext.getCurrentInstance().addMessage("loginusermsg", new FacesMessage("Error: Your password is NOT strong enough."));
+			FacesContext.getCurrentInstance().addMessage(
+					"loginusermsg",
+					new FacesMessage(
+							"Error: Your password is NOT strong enough."));
 			validationComplete = true;
 		} else {
 			// procuraUser(username,password);

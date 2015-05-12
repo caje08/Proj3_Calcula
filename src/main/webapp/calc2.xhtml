@@ -18,13 +18,14 @@
 
 
 <h:body class="layout">
-	<f:ajax render="@all">
-		<div id="page">
-			<div id="container">
 
-				<div class="row">
-					<div class="col-md-3" id="col-lado"></div>
-					<div class="col-md-6" id="col-center">
+	<div id="page">
+		<div id="container">
+
+			<div class="row">
+				<div class="col-md-3" id="col-lado"></div>
+				<div class="col-md-6" id="col-center">
+					<f:ajax render="@form" ajaxRendered="true">
 						<h:form>
 							<h1 class="title2">CALCULADORA CIENTÍFICA</h1>
 
@@ -55,7 +56,7 @@
 
 							</h:selectOneRadio>
 							<br />
-							
+
 							<h:panelGrid id="panel" columns="9" border="1" cellpadding="10"
 								cellspacing="1">
 								<f:facet name="header">
@@ -272,7 +273,8 @@
 										<td><h:outputText value="Mensagem a enviar: "
 												style="color:white; font:15px" /></td>
 										<td><h:inputText id="mensagemuser"
-												value="#{calculadora.usrmsg}" /> <h:messages for="usermsg" /></td>
+												value="#{calculadora.usrmsg}" /> <h:messages
+												for="mensagemuser" /></td>
 									</tr>
 
 									<tr>
@@ -288,52 +290,52 @@
 
 							</h:form>
 						</h:form>
-
-					</div>
-
-					<f:ajax render="@form" ajaxRendered="true">
-						<div class="col-md-3" id="col-lado" style="margin-top: 210px">
-							<h4 class="title-est">Estatística</h4>
-							<h:dataTable class="side-box">
-
-								<h:column>
-									<f:facet name="header"> Operação </f:facet>
-								</h:column>
-								<h:column>
-									<f:facet name="header"> Qtd </f:facet>
-								</h:column>
-							</h:dataTable>
-
-							<h:form>
-								<div style="width: 190px; height: 210px; overflow: auto;">
-									<h:dataTable class="side-box" value="#{stats.estatisticas}"
-										var="opst" rowClasses="order-table-odd-row">
-
-										<h:column>
-
-											<h:outputText value="#{opst.comando}" />
-										</h:column>
-
-										<h:column>
-
-											<h:outputText value="#{opst.id}" />
-										</h:column>
-
-									</h:dataTable>
-								</div>
-							</h:form>
-							<div id="footer" style="margin-top: 100px">
-								<p>© Copyright Abril 2015, Coimbra</p>
-								<p>Carlos Santos | Filipa Pedrosa</p>
-								<p>Trabalho 2 PAJ</p>
-							</div>
-
-						</div>
 					</f:ajax>
 				</div>
 
+				<f:ajax render="@form" ajaxRendered="true">
+					<div class="col-md-3" id="col-lado" style="margin-top: 210px">
+						<h4 class="title-est">Estatística</h4>
+						<h:dataTable class="side-box">
+
+							<h:column>
+								<f:facet name="header"> Operação </f:facet>
+							</h:column>
+							<h:column>
+								<f:facet name="header"> Qtd </f:facet>
+							</h:column>
+						</h:dataTable>
+
+						<h:form>
+							<div style="width: 190px; height: 210px; overflow: auto;">
+								<h:dataTable class="side-box" value="#{stats.estatisticas}"
+									var="opst" rowClasses="order-table-odd-row">
+
+									<h:column>
+
+										<h:outputText value="#{opst.comando}" />
+									</h:column>
+
+									<h:column>
+
+										<h:outputText value="#{opst.id}" />
+									</h:column>
+
+								</h:dataTable>
+							</div>
+						</h:form>
+						<div id="footer" style="margin-top: 100px">
+							<p>© Copyright Abril 2015, Coimbra</p>
+							<p>Carlos Santos | Catarina Lapo</p>
+							<p>Trabalho 2 PAJ</p>
+						</div>
+
+					</div>
+				</f:ajax>
 			</div>
+
 		</div>
-	</f:ajax>
+	</div>
+
 </h:body>
 </html>
