@@ -4,92 +4,129 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head></h:head>
+<h:head>
+	<h:outputStylesheet library="css" name="styleLogin.css" />
+	<title>Calculator</title>
+
+</h:head>
 <body>
-	<h:form id="logusers">
-		<h1 class="title">LOGIN DE UTILIZADORES NA APLICAÇÃO</h1>
-		<h:outputText value="REGISTO DE NOVOS UTILIZADORES NA APLICAÇÃO"
-			rendered="#{!calculadora.loginusr}"></h:outputText>
-
-		<h:panelGroup
-			rendered="#{login.validationComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
-			<h:outputText
-				value="É necessário introduzir um Nome de utilizador válido!"
-				rendered="#{!login.isUsernameValid}" style="color:red"></h:outputText>
-			<br> <h:outputText value="A Password é um campo obrigatório!"
-					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
-			</br>
-			<br> <h:panelGroup
-					rendered="#{login.validationComplete and (login.isUsernameValid or login.isPasswordValid)}">
-					<h:outputText
-						value="Nome de utilizador e/ou Password não são válidas"
-						style="color:red"></h:outputText>
-				</h:panelGroup> </br>
-			<h:panelGroup
-				rendered="#{login.validationComplete and (login.isUsernameValid and login.isPasswordValid)}">
-				<h:outputText value="Nome de utilizador e Password são válidas"
-					style="color:green" action="index"></h:outputText>
-
-			</h:panelGroup>
-		</h:panelGroup>
-		<h:panelGroup
-			rendered="#{login.validRegComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
-			<h:outputText
-				value="Nome de utilizador não válido ou já existente (máx de 10 letras e/digitos e sem caracteres especiais)!"
-				rendered="#{!login.isUsernameValid}" style="color:red"></h:outputText>
-			<br> <h:outputText
-					value="A Password é um campo obrigatório (máx de 10 letras e/digitos e sem caracteres especiais)!"
-					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
-			</br>
-			<br> <h:panelGroup
-					rendered="#{login.regValid and (login.isUsernameValid and login.isPasswordValid)}">
-					<h:outputText
-						value=" Registo de novo utilizador com sucesso. Tente fazer agora o login!"
-						style="color:green"></h:outputText>
-				</h:panelGroup> </br>
-		</h:panelGroup>
-
-		<div id="login" style="width: 400px; height: 400px">
-			<table>
+	<div class="pagina">
+		<h:form class="header1">
+			<h1>LOGIN DE UTILIZADORES NA APLICAÇÃO</h1>
+			<table id="regNovoUtili">
 				<tr>
-					<td><h:outputText value="Nome de Utilizador: " /></td>
-					<td><h:inputText id="username" value="#{login.username}" /> <h:messages /></td>
-
-				</tr>
-				<tr>
-					<td><h:outputText value="Password: " /></td>
-					<td><h:inputSecret id="password" value="#{login.password}" />
-						<h:messages /></td>
-				</tr>
-				<tr>
-					<td><h:outputText value="Repetir Password: "
-							rendered="#{!calculadora.loginusr}" /></td>
-					<td><h:inputSecret id="password2" value="#{login.repassword}"
-							rendered="#{!calculadora.loginusr}" /> <h:messages /></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><h:commandButton value="Login"
-							action="#{login.checkValidity()}" /></td>
-					<td><h:commandButton value="Novo Registo"
-							rendered="#{!calculadora.loginusr}" action="#{login.addUser}" /></td>
+					<td><h:outputText
+							value="REGISTO DE NOVOS UTILIZADORES NA APLICAÇÃO"
+							rendered="#{!calculadora.loginusr}"></h:outputText></td>
 				</tr>
 			</table>
 
 
+			<div>
+				<table id="login">
+					<tr>
+			<td><h:selectOneRadio id="login" value="#{calculadora.loginusr}">
+					<f:selectItem id="btnlog1" itemValue='true' itemLabel="Login " />
+					<f:selectItem id="btnlog2" itemValue='false'
+						itemLabel="Definir Novo Registo" />
 
-		</div>
-		<h:selectOneRadio styleClass="rdbtn" id="loginusr"
-			value="#{calculadora.loginusr}">
-			<f:selectItem id="btnlog1" itemValue='true' itemLabel="login " />
-			<f:selectItem id="btnlog2" itemValue='false'
-				itemLabel="Definir Novo Registo" />
+				</h:selectOneRadio></td>
+					</tr>
+				</table>
+			</div>
+			
+			<div>
+				<table id="login">
+					<tr>
+						<td>
+			<h:panelGroup
+				rendered="#{login.validationComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
+				<h:outputText
+					value="É necessário introduzir um Nome de utilizador válido!"
+					rendered="#{!login.isUsernameValid}" style="color:red"></h:outputText>
+				<br> </br>
+				<h:outputText value="A Password é um campo obrigatório!"
+					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
 
-		</h:selectOneRadio>
+				<br> </br>
+				<h:panelGroup
+					rendered="#{login.validationComplete and (login.isUsernameValid or login.isPasswordValid)}">
+					<h:outputText
+						value="Nome de utilizador e/ou Password não são válidas"
+						style="color:red"></h:outputText>
+				</h:panelGroup>
 
+				<h:panelGroup
+					rendered="#{login.validationComplete and (login.isUsernameValid and login.isPasswordValid)}">
+					<h:outputText value="Nome de utilizador e Password são válidas"
+						style="color:green" action="index"></h:outputText>
+
+				</h:panelGroup>
+			</h:panelGroup>
+							</td>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<table id="login">
+					<tr>
+						<td>
+			<h:panelGroup
+				rendered="#{login.validRegComplete and (!login.isUsernameValid or !login.isPasswordValid)}">
+				<h:outputText
+					value="Nome de utilizador não válido ou já existente (máx de 10 letras e/digitos e sem caracteres especiais)!"
+					rendered="#{!login.isUsernameValid}" style="color:red"></h:outputText>
+				<h:outputText
+					value="A Password é um campo obrigatório (máx de 10 letras e/digitos e sem caracteres especiais)!"
+					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
+
+				<h:panelGroup
+					rendered="#{login.regValid and (login.isUsernameValid and login.isPasswordValid)}">
+					<h:outputText
+						value=" Registo de novo utilizador com sucesso. Tente fazer agora o login!"
+						style="color:green"></h:outputText>
+				</h:panelGroup>
+			</h:panelGroup>
+					</td>
+					</tr>
+				</table>
+
+			<div>
+				<table id="login">
+					<tr id="alinhDir">
+						<td id="celula"><h:outputText value="Nome de Utilizador: " />
+							<h:inputText id="username" value="#{login.username}" /> <h:messages /></td>
+
+					</tr>
+					<tr id="alinhDir">
+						<td id="celula"><h:outputText value="Password: " /> <h:inputSecret
+								id="password" value="#{login.password}" /> <h:messages /></td>
+					</tr>
+					<tr id="alinhDir">
+						<td id="celula"><h:outputText value="Repetir Password: "
+								rendered="#{!calculadora.loginusr}" /> <h:inputSecret
+								id="password2" value="#{login.repassword}"
+								rendered="#{!calculadora.loginusr}" /> <h:messages /></td>
+					</tr>
+				</table>
+			</div>
+	</div>
+	<div>
+		<table id="loginFundo">
+			<tr>
+
+				<td><h:commandButton class="botoesPrincipais" value="Login"
+						action="#{login.checkValidity()}" /></td>
+				<td><h:commandButton class="botoesPrincipais"
+						value="Novo Registo" rendered="#{!calculadora.loginusr}"
+						action="#{login.addUser}" /></td>
+			</tr>
+
+		</table>
+	</div>
 
 	</h:form>
 
-
+	</div>
 </body>
 </html>
