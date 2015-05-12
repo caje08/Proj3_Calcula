@@ -4,10 +4,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head></h:head>
+<h:head>
+
+</h:head>
 <body>
+
 	<h:form id="logusers">
-		<h1 class="title">LOGIN DE UTILIZADORES NA APLICAÇÃO</h1>
+
+		<h:outputText value="LOGIN DE UTILIZADORES NA APLICAÇÃO"
+			rendered="#{calculadora.loginusr}"></h:outputText>
 		<h:outputText value="REGISTO DE NOVOS UTILIZADORES NA APLICAÇÃO"
 			rendered="#{!calculadora.loginusr}"></h:outputText>
 
@@ -41,6 +46,9 @@
 					value="A Password é um campo obrigatório (máx de 10 letras e/digitos e sem caracteres especiais)!"
 					rendered="#{!login.isPasswordValid}" style="color:red"></h:outputText>
 			</br>
+			<br></br>
+			<h:outputText value="As Passwords são diferentes. Tente outra vez!"
+				rendered="#{!login.isRePasswordValid}" style="color:red"></h:outputText>
 			<br> <h:panelGroup
 					rendered="#{login.regValid and (login.isUsernameValid and login.isPasswordValid)}">
 					<h:outputText
@@ -70,22 +78,21 @@
 				<tr>
 					<td></td>
 					<td><h:commandButton value="Login"
+							rendered="#{calculadora.loginusr}"
 							action="#{login.checkValidity()}" /></td>
 					<td><h:commandButton value="Novo Registo"
 							rendered="#{!calculadora.loginusr}" action="#{login.addUser}" /></td>
 				</tr>
 			</table>
-
-
+			<h:selectOneRadio styleClass="rdbtn" id="loginusr"
+				value="#{calculadora.loginusr}">
+				<f:selectItem id="btnlog1" itemValue='true' itemLabel="login " />
+				<f:selectItem id="btnlog2" itemValue='false'
+					itemLabel="Definir Novo Registo" />
+			</h:selectOneRadio>
 
 		</div>
-		<h:selectOneRadio styleClass="rdbtn" id="loginusr"
-			value="#{calculadora.loginusr}">
-			<f:selectItem id="btnlog1" itemValue='true' itemLabel="login " />
-			<f:selectItem id="btnlog2" itemValue='false'
-				itemLabel="Definir Novo Registo" />
 
-		</h:selectOneRadio>
 
 
 	</h:form>

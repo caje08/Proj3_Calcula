@@ -55,8 +55,9 @@ public class Calculadora implements Serializable {
 	private Stats stats;
 	@Inject
 	private Chatarray mensagens;
-//	@Inject
-//	private Login utilizador;
+
+	// @Inject
+	// private Login utilizador;
 
 	// private String explang="1+1";
 
@@ -86,19 +87,19 @@ public class Calculadora implements Serializable {
 		this.activusr = "";
 	}
 
-//	public String userLogout() {
-//		utilizador.userLogout();
-//		return "login";
-//	}
-//
-//	public void userLogin() {
-//		utilizador.checkValidity();
-//	}
+	// public String userLogout() {
+	// utilizador.userLogout();
+	// return "login";
+	// }
+	//
+	// public void userLogin() {
+	// utilizador.checkValidity();
+	// }
 
 	public void enviarMsg(String usr) {
 		int lm = usrmsg.length();
 		Chatclass m = new Chatclass();
-		String datahora, error;
+		String datahora, error="";
 
 		activusr = usr;
 		if (!usrmsg.isEmpty() && lm < TAMANHO_MSG) {
@@ -115,6 +116,7 @@ public class Calculadora implements Serializable {
 			else
 				error = "Tem que escrever algo!";
 		}
+		limparUserMsg();
 	}
 
 	public String getLogusrname() {
@@ -146,7 +148,7 @@ public class Calculadora implements Serializable {
 	}
 
 	public boolean getBasica() {
-		 System.out.println("Basica = "+basica);
+		// System.out.println("Basica = "+basica);
 		return basica;
 	}
 
@@ -155,12 +157,12 @@ public class Calculadora implements Serializable {
 	}
 
 	public Boolean getLoginusr() {
-		System.out.println("get Calculadora loginusr=" + loginusr);
+		// System.out.println("get Calculadora loginusr=" + loginusr);
 		return loginusr;
 	}
 
 	public void setLoginusr(Boolean loginusr) {
-		System.out.println("set loginusr=" + loginusr);
+		// System.out.println("set loginusr=" + loginusr);
 		this.loginusr = loginusr;
 	}
 
@@ -265,6 +267,10 @@ public class Calculadora implements Serializable {
 
 	public void noDisplay(String x) {
 		paramtext = x;
+		if (x.matches("-?\\d+(\\.\\d+)?"))
+			paramtext = paramtext + x;
+		else
+			repornoDisplay(x);
 	}
 
 	public String mudaPagina(ActionEvent e) {
@@ -898,7 +904,7 @@ public class Calculadora implements Serializable {
 			if (!mess.equals("NaN")) {
 				updateCMD(linhacmd);
 				stats.newaddStats(linhacmd);
-				bckupCMD();
+
 			}
 			// linhacmd.removeAll(linhacmd);
 			// linhaindx.removeAll(linhaindx);
@@ -911,6 +917,7 @@ public class Calculadora implements Serializable {
 			mess = "Divisão por zero";
 			contador = 2;
 		}
+		bckupCMD();
 		linhacmd.removeAll(linhacmd);
 		linhaindx.removeAll(linhaindx);
 		return mess;
@@ -922,8 +929,29 @@ public class Calculadora implements Serializable {
 
 		for (int i = 0; i < siz; i++) {
 			tmp = tmp + linhacmd.get(i) + "," + linhaindx.get(i);
+			if (i + 1 < siz)
+				tmp = tmp + ",";
 		}
 		bckpCMD.add(tmp);
+	}
+
+	public void repornoDisplay(String st) {
+		int nst = st.length();
+		int nhist = historico.size();
+		String tmp = "";
+		int indice = -1;
+		String[] st2;
+
+		if (nst > 0) {
+			for (int i = nhist - 1; i >= 0; i--) {
+				if (historico.get(i).getComando().equals(st)) {
+					// indice = i;
+					i = -1;
+				}
+				indice += 1;
+			}
+			reporCMDs(indice);
+		}
 	}
 
 	public void reporCMDs(int z) {
